@@ -40,7 +40,9 @@ const testData: ColumnProps[] = [
   }
 ]
 const currentUser: UserProps = {
-  isLogin: false
+  isLogin: true,
+  name: 'muqing',
+  id: 6
 }
 export default defineComponent({
   components: {
