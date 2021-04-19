@@ -3,7 +3,7 @@
     <global-header :user="currentUser"></global-header>
     <column-list :list="list"></column-list>
 
-    <form>
+    <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <validate-input
@@ -12,39 +12,26 @@
           type="text"
           placeholder="请输入邮箱地址"
         ></validate-input>
-        <div class="form-text" v-if="emailRef.error">
-          {{ emailRef.message }}
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-          v-model="emailRef.val"
-          @blur="validateEmail"
-        />
-        <div class="form-text" v-if="emailRef.error">
+        <div class="form-t ext" v-if="emailRef.error">
           {{ emailRef.message }}
         </div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input
+        <label for="exampleInputEmail1" class="form-label">密码</label>
+        <validate-input
+          :rules="passwdRules"
+          v-model="passwdVal"
           type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        />
+          placeholder="请输入密码"
+        ></validate-input>
+        <div class="form-t ext" v-if="passwdRef.error">
+          {{ passwdRef.message }}
+        </div>
       </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+      <template #submit>
+        <span class="btn btn-danger">Submit</span>
+      </template>
+    </validate-form>
   </div>
 </template>
 <script lang="ts">
@@ -53,6 +40,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateForm from './components/ValidateForm.vue'
 
 const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
@@ -95,9 +83,9 @@ export default defineComponent({
   components: {
     ColumnList,
     GlobalHeader,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
-  inheritAttrs: false, // 不希望组件的根元素继承attribute
   setup() {
     const emailVal = ref('muqing')
     const emailRules: RulesProp = [
@@ -105,7 +93,17 @@ export default defineComponent({
       { type: 'email', message: '请输入正确的的电子邮箱格式' }
     ]
 
+    const passwdVal = ref('')
+    const passwdRules: RulesProp = [
+      { type: 'required', message: '密码不能为空' }
+    ]
+
     const emailRef = reactive({
+      val: '',
+      error: false,
+      message: ''
+    })
+    const passwdRef = reactive({
       val: '',
       error: false,
       message: ''
@@ -119,13 +117,22 @@ export default defineComponent({
         emailRef.message = 'can be valid email'
       }
     }
+
+    const onFormSubmit = (result: boolean) => {
+      console.log('fdads', result)
+    }
+
     return {
       list: testData,
       currentUser,
       emailRef,
       validateEmail,
       emailRules,
-      emailVal
+      emailVal,
+      onFormSubmit,
+      passwdRef,
+      passwdVal,
+      passwdRules
     }
   }
 })
