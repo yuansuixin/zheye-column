@@ -10,7 +10,6 @@ export interface GlobalDataProps {
   columns: ColumnProps[];
   posts: PostProps[];
   user: UserProps
-
 }
 
 export default createStore<GlobalDataProps>({
@@ -20,6 +19,9 @@ export default createStore<GlobalDataProps>({
     user: { isLogin: false }
   },
   mutations: {
+    login(state) {
+      state.user = { ...state.user, isLogin: true, nickName: 'muqing' }
+    }
   },
   actions: {
   },

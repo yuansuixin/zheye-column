@@ -36,49 +36,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { ColumnProps } from '../components/ColumnList.vue'
-import { UserProps } from '../components/GlobalHeader.vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 
 const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
-const testData: ColumnProps[] = [
-  {
-    id: 1,
-    title: 'test1专栏',
-    description: '这是test1的专栏',
-    avatar:
-      '//cdn.micoworld.net/web/activity/20210314/assets/images/rank-active.png'
-  },
-  {
-    id: 2,
-    title: 'test2专栏',
-    description: '这是test2的专栏',
-    avatar:
-      '//cdn.micoworld.net/web/activity/20210314/assets/images/rank-active.png'
-  },
-  {
-    id: 2,
-    title: 'test2专栏',
-    description: '这是test2的专栏',
-    avatar:
-      '//cdn.micoworld.net/web/activity/20210314/assets/images/rank-active.png'
-  },
-  {
-    id: 2,
-    title: 'test2专栏',
-    description: '这是test2的专栏',
-    avatar:
-      '//cdn.micoworld.net/web/activity/20210314/assets/images/rank-active.png'
-  }
-]
-const currentUser: UserProps = {
-  isLogin: true,
-  name: 'muqing',
-  id: 6
-}
 export default defineComponent({
   components: {
     ValidateInput,
@@ -86,6 +50,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const store = useStore()
 
     const emailVal = ref('muqing')
     const emailRules: RulesProp = [
@@ -121,13 +86,12 @@ export default defineComponent({
     const onFormSubmit = (result: boolean) => {
       console.log('fdads', result)
       if (result) {
-        router.push({ name: 'column', params: { id: 1 } })
+        router.push('/')
+        store.commit('login')
       }
     }
 
     return {
-      list: testData,
-      currentUser,
       emailRef,
       validateEmail,
       emailRules,
