@@ -1,7 +1,23 @@
 import { createStore } from 'vuex'
+import { testData, testPosts, ColumnProps, PostProps } from '../testData'
 
-export default createStore({
+export interface UserProps {
+  isLogin: boolean;
+  nickName?: string;
+  _id?: string;
+}
+export interface GlobalDataProps {
+  columns: ColumnProps[];
+  posts: PostProps[];
+  user: UserProps
+
+}
+
+export default createStore<GlobalDataProps>({
   state: {
+    columns: testData,
+    posts: testPosts,
+    user: { isLogin: false }
   },
   mutations: {
   },
