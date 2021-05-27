@@ -52,7 +52,7 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore()
 
-    const emailVal = ref('muqing')
+    const emailVal = ref('')
     const emailRules: RulesProp = [
       { type: 'required', message: '电子邮箱地址不能为空' },
       { type: 'email', message: '请输入正确的的电子邮箱格式' }
@@ -88,6 +88,8 @@ export default defineComponent({
       if (result) {
         router.push('/')
         store.commit('login')
+        emailVal.value = ''
+        passwdVal.value = ''
       }
     }
 
