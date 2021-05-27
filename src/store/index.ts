@@ -61,6 +61,9 @@ export default createStore<GlobalDataProps>({
     },
   },
   getters: {
+    // getColumns: (state) => {
+    //   return objToArr(state.columns.data)
+    // },
     // biggerColumnsLen(state) {
     //   return state.columns.filter(c => c._id > 2).length
     // },
